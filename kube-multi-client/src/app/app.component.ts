@@ -10,7 +10,7 @@ export class AppComponent {
 	data: any
 
 	title: string = 'kube-multi-client';
-	url: string = 'http://localhost:8080/data';
+	url: string = 'http://localhost:3000/data';
 
 	constructor(private http: HttpClient) {
 		this.getData();
