@@ -28,15 +28,15 @@
 
     docker push <username>/<projectname>:<tagname>
 
-2.  kubectl apply -f deployment.yml
+3.  minikube start
 
-3.  kubectl apply -f service.yml
+4.  kubectl apply -f k8s/db.yml
 
-4.  minikube start
+5.  kubectl apply -f k8s/server.yml
 
-5.  minikube service kubetest
+6.  kubectl apply -f k8s/client.yml
 
-6.  Application will run on the url given under URL
+7.  Application will run on the url given under URL
 
 
 # Important
@@ -45,14 +45,37 @@
 
   1. Make sure nodejs pod/service is running
   2. Run following command to get nodejs url
-     minikube service <service-name>
+
+     `minikube service multi-server-service`
 
      This will return something like this:
 
      |-----------|----------------------------|-------------|---------------------------|
      | NAMESPACE |            NAME            | TARGET PORT |            URL            |
      |-----------|----------------------------|-------------|---------------------------|
-     | default   | kubemultiservice           |        5000 | http://192.168.49.2:31112 |
+     | default   | multi-server-service       |        5000 | http://192.168.49.2:31112 |
      |-----------|----------------------------|-------------|---------------------------|
 
      Use this URL in angular: http://192.168.49.2:31112
+
+  3. To connect nodejs with postgres, 
+     Run following command to get nodejs url
+     
+     `minikube service postgres-service`
+
+     This will return something like this:
+
+     |-----------|----------------------------|-------------|---------------------------|
+     | NAMESPACE |            NAME            | TARGET PORT |            URL            |
+     |-----------|----------------------------|-------------|---------------------------|
+     | default   | postgres-service           |        5432 | http://192.168.49.2:31113 |
+     |-----------|----------------------------|-------------|---------------------------|
+
+     Database configuration for nodejs
+
+     user = 'Defined in POSTGRES_USER in db.yml'
+     password = 'Defined in POSTGRES_PASSWORD in db.yml'
+     host: '<db-service-name = postgres-service>'  
+     port: <db-service-node-port = 31113>
+     database: 'Defined in POSTGRES_DB in db.yml'
+ 

@@ -1,5 +1,5 @@
-var fs = require("fs");
 var cors = require('cors');
+const { Pool } = require('pg');
 var express = require('express');
 
 var app = express();
@@ -13,6 +13,10 @@ app.use(cors({
 
 app.get('/data', function (req, res) {
     res.send(getData());
+});
+
+app.get('/employees', function (req, res) {
+    showEmployees(res);
 });
 
 var server = app.listen(3000, function () {
@@ -39,4 +43,27 @@ function getData() {
         name: 'Fourth',
         gender: 'Male'
     }];
+}
+
+function showEmployees(res) {
+    const dbConfig = {
+        user: 'postgres',
+        password: 'postgres',
+        host: 'postgres-service',
+        port: 5432,
+        database: 'empdb'
+    };
+
+    const pool = new Pool(dbConfig);
+
+    pool.query('select * from employees', (err, response) => {
+        console.log(err);
+        if (err) {
+            res.status(200).send('Error: ', err);
+        } else {
+            res.status(200).send(response.rows);
+        }
+
+        pool.end();
+    });
 }
