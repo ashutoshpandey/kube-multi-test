@@ -47,12 +47,14 @@ function getData() {
 
 function showEmployees(res) {
     const dbConfig = {
-        user: 'postgres',
-        password: 'postgres',
-        host: 'postgres-service',
-        port: 5432,
-        database: 'empdb'
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        host: process.env.DB_HOST,
+        port: process.env.DB_PORT,
+        database: process.env.DB_NAME,
     };
+
+    console.log(dbConfig);
 
     const pool = new Pool(dbConfig);
 

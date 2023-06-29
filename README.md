@@ -30,13 +30,18 @@
 
 3.  minikube start
 
-4.  kubectl apply -f k8s/db.yml
+4.  kubectl apply -f k8s/namespace.yml
+    kubectl apply -f k8s/db.yml
+    kubectl apply -f k8s/db-secret.yml
+    kubectl apply -f k8s/db-configmap.yml
+    kubectl apply -f k8s/server.yml
+    kubectl apply -f k8s/client.yml
 
-5.  kubectl apply -f k8s/server.yml
+    OR
 
-6.  kubectl apply -f k8s/client.yml
+    ./apply.sh
 
-7.  Application will run on the url given under URL
+5.  Application will run on the url given under URL
 
 
 # Important
