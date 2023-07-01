@@ -49,6 +49,7 @@
   To connect angular with nodejs, do following steps:
 
   1. Make sure nodejs pod/service is running
+  
   2. Run following command to get nodejs url
 
      `minikube service multi-server-service`
@@ -63,24 +64,19 @@
 
      Use this URL in angular: http://192.168.49.2:31112
 
-  3. To connect nodejs with postgres, 
-     Run following command to get nodejs url
+  3. To connect nodejs with postgres,      
      
-     `minikube service postgres-service`
+     Put username, password in `db-secret.yml` file in `base64 encoded` form
 
-     This will return something like this:
-
-     |-----------|----------------------------|-------------|---------------------------|
-     | NAMESPACE |            NAME            | TARGET PORT |            URL            |
-     |-----------|----------------------------|-------------|---------------------------|
-     | default   | postgres-service           |        5432 | http://192.168.49.2:31113 |
-     |-----------|----------------------------|-------------|---------------------------|
-
-     Database configuration for nodejs
-
-     user = 'Defined in POSTGRES_USER in db.yml'
-     password = 'Defined in POSTGRES_PASSWORD in db.yml'
-     host: '<db-service-name = postgres-service>'  
-     port: <db-service-node-port = 31113>
-     database: 'Defined in POSTGRES_DB in db.yml'
+     Put host, database, port in `db-configmap.yml` configuration file.
+     Note: `dbhost` value will be the name of service in `db.yml`
  
+  4. Kubernetes expects data in `db-secret` file in base64 string and provides implicitly decoded value when read in application.
+
+
+# Sample SQL
+
+`create table employees(id int, name varchar(256), gender varchar(20));`
+
+`insert into employees values(1, 'abc', 'male');`
+`insert into employees values(2, 'xyz', 'female');`
